@@ -28,3 +28,6 @@ $Response = $WebClient.UploadFile($Uri,$filePath)
 $JsonResponse = [System.Text.Encoding]::ASCII.GetString($Response) | ConvertFrom-Json
 $PositiveInfections = $JsonResponse.positives
 LogWrite "Number of infections found by VirusTotal: $PositiveInfections"
+Write-Host "Number of infections found by VirusTotal: $PositiveInfections"
+
+Write-Host "Client terminates."
