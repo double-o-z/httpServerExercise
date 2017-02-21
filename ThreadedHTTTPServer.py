@@ -1,9 +1,12 @@
+import json
 from BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
 from SocketServer import ThreadingMixIn
 import threading
 import cgi
 import os
 import logging
+
+from VirusTotalMethods import scan_file
 
 IP = '127.0.0.1'
 PORT = 8080
@@ -50,7 +53,10 @@ class Handler(BaseHTTPRequestHandler):
                 file_data = field_item.file.read()
                 file_path = "saved_files\\%s" % field_item.filename
                 try:
-                    os.remove(file_path)
+                    if os.path.isfile(file_path):
+                        os.remove(file_path)
+                except Exception, e:
+                    logger.error("can't delete file", e)
                 finally:
                     write_file = open("saved_files\\%s" % field_item.filename, "wb")
                     write_file.write(file_data)
@@ -60,8 +66,11 @@ class Handler(BaseHTTPRequestHandler):
                 logger.info('Uploaded %s as "%s" (%d bytes)' % \
                             (field, field_item.filename, file_len))
                 # Send file to VirusTotal API and get response
-                
+                report = scan_file(file_path)
+                json_report = json.dumps(report._report)
                 # Send respose to client as JSON with self.wfile.write(JSONResponse)
+                logger.info(json.loads(json_report))
+                self.wfile.write(json_report)
             else:
                 # Regular form value
                 logger.info('%s=%s' % (field, form[field].value))

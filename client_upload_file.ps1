@@ -24,5 +24,7 @@ LogWrite "Uploading $fileName to $Uri"
 # Send the post request and save response
 $Response = $WebClient.UploadFile($Uri,$filePath)
 
-# Print response to console
-[System.Text.Encoding]::ASCII.GetString($Response) | LogWrite
+# Save Json response
+$JsonResponse = [System.Text.Encoding]::ASCII.GetString($Response) | ConvertFrom-Json
+$PositiveInfections = $JsonResponse.positives
+LogWrite "Number of infections found by VirusTotal: $PositiveInfections"
