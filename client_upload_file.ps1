@@ -1,5 +1,5 @@
 # Create the log file function and file
-$Logfile = "logs\client.log"
+$Logfile = "loggers\client.log"
 Function LogWrite
 {
    Param ([string]$logstring)

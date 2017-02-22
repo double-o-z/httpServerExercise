@@ -12,7 +12,7 @@ IP = '127.0.0.1'
 PORT = 8080
 LOG_FORMAT = '%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s' + '\tFrom {}:{}'.format(IP, PORT)
 
-logging.basicConfig(filename="logs/server.log",
+logging.basicConfig(filename="loggers/server.log",
                     filemode='a',
                     format=LOG_FORMAT,
                     datefmt='%H:%M:%S',
