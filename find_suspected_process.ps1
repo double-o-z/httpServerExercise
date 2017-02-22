@@ -1,1 +1,0 @@
-$ProcessPath = Get-Process | Sort CPU -descending | Select -first 1 | Select-Object Path
