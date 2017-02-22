@@ -6,7 +6,7 @@ import cgi
 import os
 import logging
 
-from VirusTotalMethods import scan_file
+from VirusTotalMethods import file_report
 
 IP = '127.0.0.1'
 PORT = 8080
@@ -65,12 +65,13 @@ class Handler(BaseHTTPRequestHandler):
                 del file_data
                 logger.info('Uploaded %s as "%s" (%d bytes)' % \
                             (field, field_item.filename, file_len))
+
                 # Send file to VirusTotal API and get response
-                report = scan_file(file_path)
-                json_report = json.dumps(report._report)
+                report = file_report(field_item.filename, file_path)
+
                 # Send respose to client as JSON with self.wfile.write(JSONResponse)
-                logger.info(json.loads(json_report))
-                self.wfile.write(json_report)
+                logger.info(report)
+                self.wfile.write(json.dumps(report))
             else:
                 # Regular form value
                 logger.info('%s=%s' % (field, form[field].value))

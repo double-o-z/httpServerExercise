@@ -27,6 +27,9 @@ $Response = $WebClient.UploadFile($Uri,$filePath)
 # Save Json response
 $JsonResponse = [System.Text.Encoding]::ASCII.GetString($Response) | ConvertFrom-Json
 $PositiveInfections = $JsonResponse.positives
+$ScanID = $JsonResponse.scan_id
+LogWrite "Scan ID: $ScanID"
+Write-Host "Scan ID: $ScanID"
 LogWrite "Number of infections found by VirusTotal: $PositiveInfections"
 Write-Host "Number of infections found by VirusTotal: $PositiveInfections"
 
